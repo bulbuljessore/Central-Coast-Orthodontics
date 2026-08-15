@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#08131A;overflow-x:clip}
+body{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#EEF2F4;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#00A9E0;text-decoration:none}
+a:hover{color:#EEF2F4}
+::selection{background:#00A9E0;color:#08131A}
+input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
+@keyframes cco-marq{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes cco-curtain{0%,58%{transform:translateY(0)}100%{transform:translateY(-101%)}}
+#cco-curtain{animation:cco-curtain 2s cubic-bezier(.76,0,.24,1) forwards}
+@media (prefers-reduced-motion:reduce){#cco-curtain{animation:none;transform:translateY(-101%)}}
+@media print{#cco-curtain{display:none}}
+@media print{*{opacity:1!important;transform:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+</helmet>
+
+<div ref="{{ rootRef }}" style="background:#08131A;color:#EEF2F4;font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif;position:relative;width:100%;overflow-x:clip">
+
+  <div id="cco-curtain" ref="{{ curtainRef }}" aria-hidden="true" style="position:fixed;inset:0;z-index:400;background:#08131A;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;will-change:transform">
+    <img src="uploads/Logo.png" alt="Central Coast Orthodontics" style="width:min(58vw,300px);height:auto;filter:saturate(1.06) brightness(1.14)">
+    <div ref="{{ counterRef }}" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.16em;color:#7E8C93">00</div>
+  </div>
+
+  <header ref="{{ headerRef }}" style="{{ headerStyle }}">
+    <a href="#top" ref="{{ logoRef }}" style="display:flex;align-items:center;flex:0 0 auto;min-height:44px">
+      <img src="uploads/Logo.png" alt="Central Coast Orthodontics — home" style="{{ headerLogoStyle }}">
+    </a>
+    <nav ref="{{ navRef }}" style="{{ navStyle }}">
+      <a href="#top" style="{{ navLinkStyle }}">Home</a>
+      <a href="#practice" style="{{ navLinkStyle }}">About</a>
+      <a href="#services" style="{{ navLinkStyle }}">Services</a>
+      <a href="#team" style="{{ navLinkStyle }}">Team</a>
+      <a href="#cases" style="{{ navLinkStyle }}">Case studies</a>
+      <a href="#contact" style="{{ navLinkStyle }}">Contact</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px;flex:0 0 auto">
+      <a href="tel:0243231533" ref="{{ phoneRef }}" style="{{ headerPhoneStyle }}">(02) 4323 1533</a>
+      <button onClick="{{ openWizard }}" style="background:#00A9E0;color:#08131A;border:0;padding:0 18px;height:44px;font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Book</button>
+      <button onClick="{{ toggleMenu }}" aria-label="Open menu" ref="{{ burgerRef }}" style="{{ burgerStyle }}" style-hover="border-color:#00A9E0">
+        <span style="{{ burgerBarStyle }}"></span>
+        <span style="{{ burgerBarStyle }}"></span>
+      </button>
+    </div>
+  </header>
+
+  <sc-if value="{{ menu }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:300;background:#08131A;overflow-y:auto;padding:18px 6vw clamp(40px,8vh,80px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:60px;border-bottom:1px solid rgba(126,140,147,0.22);padding-bottom:18px">
+        <img src="uploads/Logo.png" alt="Central Coast Orthodontics" style="height:clamp(20px,3.4vw,28px);width:auto;filter:saturate(1.06) brightness(1.14)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <a href="tel:0243231533" style="display:flex;align-items:center;min-height:44px;font-size:13px;font-weight:600;color:#EEF2F4;letter-spacing:0.04em">(02) 4323 1533</a>
+          <button onClick="{{ toggleMenu }}" aria-label="Close menu" style="height:44px;min-width:44px;padding:0 14px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer" style-hover="border-color:#00A9E0">Close</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(28px,4vw,56px);padding:clamp(32px,6vh,64px) 0">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Who we treat</div>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;letter-spacing:-0.03em;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Children</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;letter-spacing:-0.03em;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Teens</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;letter-spacing:-0.03em;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Adults</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Treatment options</div>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Invisalign</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Ceramic braces</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Metal braces</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Braces: fixed appliances</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Interceptive orthodontics</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Surgical orthodontics</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Orthopaedic treatment</a>
+          <a href="#services" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Skeletal anchorage</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">The practice</div>
+          <a href="#practice" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Why choose us</a>
+          <a href="#team" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Our orthodontists</a>
+          <a href="#journey" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Treatment journey</a>
+          <a href="#journey" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Technology</a>
+          <a href="#cases" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Case studies</a>
+          <a href="#cases" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Smile gallery</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Practical</div>
+          <a href="#cost" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Finance and cost</a>
+          <a href="#cost" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">FAQs</a>
+          <a href="#referrals" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Dentist referrals</a>
+          <a href="#contact" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Gosford</a>
+          <a href="#contact" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Erina</a>
+          <a href="#footer" onClick="{{ toggleMenu }}" style="font-size:16px;color:#EEF2F4;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Treatment risks</a>
+        </div>
+      </div>
+      <button onClick="{{ openWizard }}" style="background:#00A9E0;color:#08131A;border:0;height:56px;padding:0 26px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Book a consultation</button>
+    </div>
+  </sc-if>
+
+  <section id="top" data-screen-label="Hero" style="position:relative;height:100svh;min-height:100svh;width:100%;overflow:hidden;display:flex;align-items:flex-end">
+    <div ref="{{ heroImgRef }}" style="position:absolute;inset:0;background:#0E1D24 url(img/hero.png) center right/cover no-repeat;will-change:transform"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(75deg,rgba(8,19,26,0.94) 0%,rgba(8,19,26,0.86) 42%,rgba(8,19,26,0.34) 78%,rgba(8,19,26,0.5) 100%)"></div>
+    <div style="position:relative;width:100%;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:clamp(88px,13vh,132px) 6vw clamp(36px,7vh,80px)">
+      <div style="grid-column:1 / span 9;display:flex;flex-direction:column;gap:clamp(20px,3vh,34px)">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Gosford &amp; Erina — since 1984</div>
+        <h1 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(38px,7.4vw,112px);letter-spacing:-0.045em;line-height:0.90;color:#EEF2F4;text-wrap:balance">
+          <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1a }}" style="display:block">Specialist-only care,</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1b }}" style="display:block">on the Coast</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1c }}" style="display:block">since 1984.</span></span>
+        </h1>
+        <div ref="{{ heroSubRef }}" style="display:flex;flex-direction:column;gap:clamp(18px,3vh,30px);max-width:640px">
+          <p style="margin:0;font-size:21px;line-height:1.45;max-width:52ch;color:#EEF2F4">Dr Alistair King and Dr Simon Deall: AHPRA-registered Specialist Orthodontists, both working full-time on the Coast.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+            <button onClick="{{ openWizard }}" style="background:#00A9E0;color:#08131A;border:0;height:56px;padding:0 28px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Book a consultation</button>
+            <a href="tel:0243231533" style="display:flex;align-items:center;height:56px;padding:0 22px;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:15px;font-weight:600;letter-spacing:0.04em" style-hover="border-color:#00A9E0;color:#00A9E0">(02) 4323 1533</a>
+          </div>
+          <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93;max-width:50ch">Written quote and interest-free payment options at your first visit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="practice" data-screen-label="Specialist standard" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;border-top:1px solid rgba(126,140,147,0.22)">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:clamp(24px,4vh,40px)">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:22ch;text-wrap:pretty">The three years that separate a specialist from a short course.</h2>
+        <p data-reveal style="margin:0;font-size:19px;line-height:1.5;max-width:56ch;color:#EEF2F4">In their own words: “General dentists can legally provide Invisalign after a short course. Specialist Orthodontists complete three additional years of full-time university training focused exclusively on moving teeth and correcting bites.” Both of ours also teach — Dr King supervises the orthodontic training program at Sydney Dental Hospital; both have been invited to lecture at the University of Newcastle.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(126,140,147,0.28);margin-top:clamp(48px,7vh,88px)">
+      <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:10px">
+        <div data-count="1984" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.0">1984</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Practice established</div>
+      </div>
+      <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:10px">
+        <div data-count="3" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.0">3</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Extra years, each specialist</div>
+      </div>
+      <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:10px">
+        <div data-count="150" data-suffix="+" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.0">150+</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Years combined team experience</div>
+      </div>
+      <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:10px">
+        <div data-count="2" style="font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.0">2</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Clinics — Gosford, Erina</div>
+      </div>
+    </div>
+  </section>
+
+  <div style="border-top:1px solid rgba(126,140,147,0.22);border-bottom:1px solid rgba(126,140,147,0.22);overflow:hidden;padding:22px 0">
+    <div style="display:flex;width:max-content;animation:cco-marq 38s linear infinite;will-change:transform">
+      <div style="display:flex;align-items:center;gap:44px;padding-right:44px;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0;color:#EEF2F4;white-space:nowrap">
+        <span>Invisalign</span><span style="color:#7E8C93">/</span><span>Ceramic braces</span><span style="color:#7E8C93">/</span><span>Metal braces</span><span style="color:#7E8C93">/</span><span>Interceptive</span><span style="color:#7E8C93">/</span><span>Surgical</span><span style="color:#7E8C93">/</span><span>Orthopaedic</span><span style="color:#7E8C93">/</span><span>Skeletal anchorage</span><span style="color:#7E8C93">/</span>
+      </div>
+      <div aria-hidden="true" style="display:flex;align-items:center;gap:44px;padding-right:44px;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0;color:#EEF2F4;white-space:nowrap">
+        <span>Invisalign</span><span style="color:#7E8C93">/</span><span>Ceramic braces</span><span style="color:#7E8C93">/</span><span>Metal braces</span><span style="color:#7E8C93">/</span><span>Interceptive</span><span style="color:#7E8C93">/</span><span>Surgical</span><span style="color:#7E8C93">/</span><span>Orthopaedic</span><span style="color:#7E8C93">/</span><span>Skeletal anchorage</span><span style="color:#7E8C93">/</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="services" data-screen-label="Services" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:20px">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">Your plan is chosen for your bite, not picked off a menu.</h2>
+        <p data-reveal style="margin:0;font-size:19px;line-height:1.5;max-width:56ch;color:#7E8C93">“If there is more than one option, we will guide you through the pros and cons of each so that you feel comfortable about the plan you choose.”</p>
+      </div>
+    </div>
+    <div ref="{{ listRef }}" style="margin-top:clamp(48px,7vh,88px);border-top:1px solid rgba(126,140,147,0.28)">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="8">
+        <a href="#contact" data-svc="{{ s.i }}" data-reveal style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px;padding:clamp(18px,2.6vh,28px) 0;border-bottom:1px solid rgba(126,140,147,0.28);color:#EEF2F4" style-hover="color:#00A9E0">
+          <span style="flex:1 1 auto;min-width:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">{{ s.name }}</span>
+          <span style="flex:0 1 34ch;min-width:0;font-size:15px;line-height:1.5;color:#7E8C93;text-align:right">{{ s.note }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="cases" data-screen-label="Before and after" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;border-top:1px solid rgba(126,140,147,0.22)">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:20px">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:22ch;text-wrap:pretty">Drag the handle. That is the same patient, both sides.</h2>
+        <p data-reveal style="margin:0;font-size:19px;line-height:1.5;max-width:56ch;color:#7E8C93">Every case here comes from our own published record, with the appliance used and the months it took. Pick one.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="margin-top:clamp(40px,6vh,72px);display:flex;flex-wrap:wrap;gap:1px;background:rgba(126,140,147,0.28)">
+      <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+        <button onClick="{{ c.on }}" style="{{ c.tabStyle }}">
+          <span style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase">{{ c.suburb }}</span>
+          <span style="font-size:15px;font-weight:500">{{ c.months }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div data-reveal style="margin-top:1px;display:flex;flex-wrap:wrap;gap:1px;background:rgba(126,140,147,0.28)">
+      <div ref="{{ compareRef }}" onPointerDown="{{ onDrag }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onDrop }}" style="position:relative;flex:1 1 440px;min-width:0;background:#0E1D24;aspect-ratio:4/3;overflow:hidden;touch-action:none;cursor:ew-resize;user-select:none">
+        <img ref="{{ afterRef }}" src="img/case1-after.png" alt="After treatment" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none">
+        <img ref="{{ beforeRef }}" src="img/case1-before.png" alt="Before treatment" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;clip-path:inset(0 {{ clipRight }} 0 0)">
+        <div style="position:absolute;bottom:16px;left:16px;padding:7px 12px;background:rgba(8,19,26,0.82);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#EEF2F4;pointer-events:none">Before</div>
+        <div style="position:absolute;bottom:16px;right:16px;padding:7px 12px;background:rgba(8,19,26,0.82);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#EEF2F4;pointer-events:none">After</div>
+        <div style="position:absolute;top:0;bottom:0;left:{{ handleLeft }};width:2px;background:#00A9E0;pointer-events:none"></div>
+        <button ref="{{ handleRef }}" onKeyDown="{{ onKey }}" aria-label="Drag to compare before and after" aria-valuenow="{{ posLabel }}" role="slider" style="position:absolute;top:50%;left:{{ handleLeft }};transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;border:2px solid #00A9E0;background:#08131A;color:#00A9E0;font-size:15px;font-weight:600;cursor:ew-resize;display:flex;align-items:center;justify-content:center;letter-spacing:0.06em">&lt;&gt;</button>
+        <div style="position:absolute;top:16px;left:16px;padding:7px 12px;background:rgba(8,19,26,0.82);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#00A9E0;pointer-events:none">{{ activeSuburb }}</div>
+      </div>
+
+      <div style="flex:1 1 340px;min-width:0;background:#08131A;padding:clamp(24px,4vh,40px);display:flex;flex-direction:column;gap:18px;justify-content:center">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#00A9E0">{{ activeMonths }}</div>
+        <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">{{ activeSuburb }}</h3>
+        <p style="margin:0;font-size:18px;line-height:1.5;color:#EEF2F4;max-width:44ch">{{ activeDetail }}</p>
+        <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(126,140,147,0.28);padding-top:18px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Appliance</div>
+          <div style="font-size:18px;line-height:1.4">{{ activeAppliance }}</div>
+        </div>
+        <button onClick="{{ openWizard }}" style="align-self:flex-start;background:#00A9E0;color:#08131A;border:0;height:52px;padding:0 24px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Ask about your case</button>
+      </div>
+    </div>
+
+    <p data-reveal style="margin:clamp(24px,4vh,36px) 0 0;font-size:13px;line-height:1.6;color:#7E8C93;max-width:78ch">The before and after images shown are of a real patient of our clinic. These images are for illustrative purposes only and do not represent the results that all patients can expect. Results vary depending on individual circumstances, and all surgical and cosmetic procedures carry risks. The outcomes shown are only relevant for this patient and do not necessarily reflect the results other patients may experience.</p>
+  </section>
+
+  <section id="team" data-screen-label="Team (light section)" style="scroll-margin-top:96px;background:#EEF2F4;color:#08131A;padding:clamp(80px,11vh,140px) 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,64px);align-items:start">
+      <div style="align-self:stretch"><div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(8,19,26,0.2);position:sticky;top:88px">
+        <div style="aspect-ratio:2/3;background:#DDE4E7;overflow:hidden">
+          <img src="img/dr-king.png" alt="Dr Alistair King, Specialist Orthodontist" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+        <div style="aspect-ratio:2/3;background:#DDE4E7;overflow:hidden">
+          <img src="img/dr-deall.png" alt="Dr Simon Deall, Specialist Orthodontist" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </div></div>
+      <div style="padding:0 6vw;display:flex;flex-direction:column;gap:clamp(28px,4vh,44px);width:100%;max-width:max(320px,45vw)">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#4A5A62">Your orthodontists</div>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;text-wrap:pretty">Two specialists. Both of them locals. Both of them teach.</h2>
+        <div style="display:flex;flex-direction:column;gap:24px;border-top:1px solid rgba(8,19,26,0.2);padding-top:24px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">Dr Alistair King</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#4A5A62;max-width:52ch">Specialist Orthodontist. D Clin Dent (Orth) (Sydney), BDS Hons (Sydney), MRACDS (Orth). Joined the practice in 2009. Conjoint appointment, University of Newcastle; honorary affiliation, University of Sydney. Research on root resorption published internationally.</p>
+            <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:0.06em;color:#08131A">Specialist Registration DEN0001029392</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(8,19,26,0.2);padding-top:24px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">Dr Simon Deall</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#4A5A62;max-width:52ch">Specialist Orthodontist. BAppSc (Phty) Hons (Sydney), BDent Hons (Sydney), DClinDent (Orth) (Melbourne), MRACDS (Orth), MOrth RCSEd. Certified member of the Australasian Orthodontic Board.</p>
+            <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:0.06em;color:#08131A">Specialist Registration DEN0001383620</p>
+          </div>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:#4A5A62;max-width:52ch">Members of the Australian Dental Association, the Australian Society of Orthodontists, the Royal Australasian College of Dental Surgeons and the International Association of Dental Traumatology.</p>
+        <button onClick="{{ openWizard }}" style="align-self:flex-start;background:#00A9E0;color:#08131A;border:0;height:56px;padding:0 26px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#08131A;color:#EEF2F4">Book a consultation</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof" data-screen-label="Proof" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;border-top:1px solid rgba(126,140,147,0.22)">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">Most of our patients arrive on somebody else's recommendation.</h2>
+        <blockquote data-reveal style="margin:0;display:flex;flex-direction:column;gap:16px;border-left:1px solid rgba(126,140,147,0.4);padding-left:clamp(20px,3vw,40px)">
+          <p style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:400;letter-spacing:-0.035em;line-height:1.15;max-width:36ch">“From my very first consultation, the team demonstrated incredible patience and genuine care throughout my entire treatment journey.”</p>
+          <cite style="font-style:normal;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Aaron “Ace” Gordon — Google review</cite>
+        </blockquote>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(126,140,147,0.28)">
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:14px">
+            <p style="margin:0;font-size:18px;line-height:1.5;color:#EEF2F4">“All three of my kids have had their orthodontic treatment completed by Dr Deall and his team.”</p>
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Google review</span>
+          </div>
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:14px">
+            <p style="margin:0;font-size:18px;line-height:1.5;color:#EEF2F4">“I'm a dentist in Sydney — Simon is my go to orthodontist to refer my valued patients to on the central coast. I trust him completely.”</p>
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Referring dentist, Sydney</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey" data-screen-label="First visit" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:clamp(28px,4vh,44px)">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">You will know the plan, the timeline and the price before anything is bonded.</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:rgba(126,140,147,0.28)">
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.035em;line-height:1.0">Examination</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">A thorough look at smile, teeth, mouth and jaws with 3D imaging and intra-oral scanning. Simple and painless.</p>
+          </div>
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.035em;line-height:1.0">Options, with trade-offs</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">Where more than one approach works, you get the pros and cons of each — not one recommendation and a quote.</p>
+          </div>
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.035em;line-height:1.0">Written quote</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">Costs and payment options are discussed at the first appointment, so there are no surprises later.</p>
+          </div>
+          <div data-reveal style="background:#08131A;padding:26px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.035em;line-height:1.0">Treatment, then retention</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">SureSmile 3D positioning and robotic wire-bending where it makes the finish more precise. Retainers to hold it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cost" data-screen-label="Cost" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;border-top:1px solid rgba(126,140,147,0.22)">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 7;display:flex;flex-direction:column;gap:24px">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">Interest free, weekly if that suits you better.</h2>
+        <p data-reveal style="margin:0;font-size:19px;line-height:1.5;max-width:56ch;color:#EEF2F4">Many patients pay treatment off over time. The plans are interest free and customised to your budget — weekly, fortnightly or monthly. Treatment and item numbers are recognised by all health funds, and as registered specialists the rebate is often higher than for treatment by a non-specialist.</p>
+      </div>
+      <div data-reveal style="grid-column:10 / span 3;border-left:1px solid rgba(126,140,147,0.28);padding-left:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Also true</div>
+        <div style="font-size:15px;line-height:1.5">Diamond Black Invisalign Provider.</div>
+        <div style="font-size:15px;line-height:1.5">Health fund claims on the spot via HICAPS.</div>
+        <div style="font-size:15px;line-height:1.5">No referral necessary — though most patients come to us from their dentist.</div>
+        <div style="font-size:15px;line-height:1.5">Instruments sterilised to Australian Dental Association guidelines; environmental cleaning between every patient.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="referrals" data-screen-label="Referrals" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;background:#0E1D24">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:24px">
+      <h3 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0;max-width:26ch">Referring dentists: send the scan, keep the patient.</h3>
+      <a data-reveal href="mailto:info@centralcoastorthodontics.com.au" style="display:flex;align-items:center;min-height:56px;padding:14px 24px;max-width:100%;overflow-wrap:anywhere;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:15px;font-weight:600" style-hover="border-color:#00A9E0;color:#00A9E0">info@centralcoastorthodontics.com.au</a>
+    </div>
+  </section>
+
+  <section id="contact" data-screen-label="Locations" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
+      <div style="grid-column:1 / span 12;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+        <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">Two clinics, twenty minutes apart. Pick whichever is on your way.</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(126,140,147,0.28)">
+          <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">Gosford</h3>
+            <p style="margin:0;font-size:18px;line-height:1.5">1/59 Beane St<br>Gosford NSW 2250</p>
+            <a href="tel:0243231533" style="font-size:18px;font-weight:600;letter-spacing:0.02em;display:inline-flex;align-items:center;min-height:44px">(02) 4323 1533</a>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">Fax (02) 4323 1530 · Easy parking, close to public transport.</p>
+          </div>
+          <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">Erina</h3>
+            <p style="margin:0;font-size:18px;line-height:1.5">222 Central Coast Hwy<br>Erina NSW 2250</p>
+            <a href="tel:0243279488" style="font-size:18px;font-weight:600;letter-spacing:0.02em;display:inline-flex;align-items:center;min-height:44px">(02) 4327 9488</a>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93;overflow-wrap:anywhere">Fax (02) 4323 1530 · info@centralcoastorthodontics.com.au</p>
+          </div>
+          <div data-reveal style="background:#08131A;padding:28px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Hours</div>
+            <p style="margin:0;font-size:18px;line-height:1.6">Monday to Friday, 8am–5pm<br>Saturday and Sunday, closed</p>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93">No referral necessary. Your first visit is a consultation.</p>
+          </div>
+        </div>
+        <div data-reveal ref="{{ mapRef }}" style="aspect-ratio:16/6;min-height:200px;background:#0E1D24;overflow:hidden;will-change:transform">
+          <img src="img/gosford.png" alt="The Gosford clinic at 1/59 Beane St" style="width:100%;height:112%;object-fit:cover;display:block">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" data-screen-label="Footer" style="scroll-margin-top:96px;border-top:1px solid rgba(126,140,147,0.22);padding:clamp(60px,9vh,110px) 6vw clamp(32px,5vh,56px);display:flex;flex-direction:column;gap:clamp(40px,6vh,72px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(28px,4vw,56px)">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <img src="uploads/Logo.png" alt="Central Coast Orthodontics" style="width:min(72vw,240px);height:auto;filter:saturate(1.06) brightness(1.14)">
+        <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93;max-width:34ch">Specialist orthodontic care on the Central Coast since 1984. Gosford and Erina.</p>
+        <button onClick="{{ openWizard }}" style="align-self:flex-start;background:#00A9E0;color:#08131A;border:0;height:52px;padding:0 24px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Book a consultation</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Pages</div>
+        <a href="#top" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Home</a>
+        <a href="#practice" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">About the practice</a>
+        <a href="#services" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Services</a>
+        <a href="#team" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Our orthodontists</a>
+        <a href="#cases" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Case studies</a>
+        <a href="#contact" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Contact</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Treatment</div>
+        <a href="#services" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Invisalign</a>
+        <a href="#services" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Braces, fixed appliances</a>
+        <a href="#services" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Interceptive orthodontics</a>
+        <a href="#services" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Orthopaedic treatment</a>
+        <a href="#cost" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Finance and cost</a>
+        <a href="#footer" style="color:#EEF2F4;font-size:15px;min-height:44px;display:flex;align-items:center" style-hover="color:#00A9E0">Treatment risks</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Contact</div>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#EEF2F4">1/59 Beane St, Gosford NSW 2250<br><a href="tel:0243231533" style="display:inline-flex;align-items:center;min-height:44px;color:#EEF2F4" style-hover="color:#00A9E0">(02) 4323 1533</a></p>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#EEF2F4">222 Central Coast Hwy, Erina NSW 2250<br><a href="tel:0243279488" style="display:inline-flex;align-items:center;min-height:44px;color:#EEF2F4" style-hover="color:#00A9E0">(02) 4327 9488</a></p>
+        <a href="mailto:info@centralcoastorthodontics.com.au" style="font-size:15px;overflow-wrap:anywhere;display:inline-flex;align-items:center;min-height:44px;color:#EEF2F4" style-hover="color:#00A9E0">info@centralcoastorthodontics.com.au</a>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#7E8C93">Monday to Friday, 8am–5pm</p>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(126,140,147,0.22);padding-top:24px;display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline;justify-content:space-between">
+      <p style="margin:0;font-size:13px;line-height:1.6;color:#7E8C93">© 2026 Central Coast Orthodontics</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px 20px">
+        <a href="#footer" style="font-size:13px;color:#7E8C93;display:inline-flex;align-items:center;min-height:44px" style-hover="color:#00A9E0">Disclaimer</a>
+        <a href="#footer" style="font-size:13px;color:#7E8C93;display:inline-flex;align-items:center;min-height:44px" style-hover="color:#00A9E0">Privacy statement</a>
+        <a href="#footer" style="font-size:13px;color:#7E8C93;display:inline-flex;align-items:center;min-height:44px" style-hover="color:#00A9E0">Treatment risks</a>
+      </div>
+    </div>
+  </footer>
+
+  <div ref="{{ cursorRef }}" aria-hidden="true" style="position:fixed;top:0;left:0;z-index:150;width:260px;height:330px;pointer-events:none;opacity:0;background:#0E1D24;overflow:hidden;will-change:transform">
+    <img ref="{{ cursorImgRef }}" src="img/room.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+  </div>
+
+  <sc-if value="{{ wiz }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:500;background:rgba(8,19,26,0.96);display:flex;align-items:stretch;justify-content:center;overflow-y:auto">
+      <div style="width:100%;max-width:760px;padding:clamp(16px,3vh,32px) 6vw clamp(40px,8vh,80px);display:flex;flex-direction:column;gap:clamp(24px,4vh,40px)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px">
+          <img src="uploads/Logo.png" alt="Central Coast Orthodontics" style="height:24px;width:auto;filter:saturate(1.06) brightness(1.14)">
+          <button onClick="{{ closeWizard }}" aria-label="Close booking" style="height:44px;min-width:44px;padding:0 16px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer" style-hover="border-color:#00A9E0">Close</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="height:2px;background:rgba(126,140,147,0.28)">
+            <div style="height:2px;background:#00A9E0;width:{{ progress }}"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;gap:16px;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">
+            <span>{{ stepLabel }}</span>
+            <span>Prototype — nothing is submitted</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ isQ }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:clamp(20px,3vh,32px)">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.05;max-width:24ch">{{ question }}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93;max-width:52ch">{{ questionNote }}</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+              <sc-for list="{{ options }}" as="o" hint-placeholder-count="3">
+                <button onClick="{{ o.on }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.05;max-width:24ch">Who should we call back?</h3>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Full name
+              <input type="text" value="{{ name }}" onChange="{{ setName }}" autocomplete="name" style="height:52px;padding:0 14px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:18px;letter-spacing:0;text-transform:none;font-weight:400">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Mobile
+              <input type="tel" value="{{ phone }}" onChange="{{ setPhone }}" autocomplete="tel" style="height:52px;padding:0 14px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:18px;letter-spacing:0;text-transform:none;font-weight:400">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Email
+              <input type="email" value="{{ email }}" onChange="{{ setEmail }}" autocomplete="email" style="height:52px;padding:0 14px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:18px;letter-spacing:0;text-transform:none;font-weight:400">
+            </label>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.05;max-width:24ch">Have we got this right?</h3>
+            <div style="display:flex;flex-direction:column;gap:1px;background:rgba(126,140,147,0.28)">
+              <sc-for list="{{ summary }}" as="r" hint-placeholder-count="5">
+                <div style="background:#08131A;padding:18px 20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px">
+                  <span style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">{{ r.k }}</span>
+                  <span style="font-size:18px;line-height:1.4">{{ r.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:24px;padding:clamp(24px,5vh,48px) 0">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#00A9E0">Request received</div>
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:700;letter-spacing:-0.035em;line-height:1.05;max-width:26ch">{{ doneLine }}</h3>
+            <p style="margin:0;font-size:19px;line-height:1.5;max-width:52ch;color:#EEF2F4">Reception will ring to confirm a time, usually the same working day. Bring any referral or x-rays your dentist has given you.</p>
+            <p style="margin:0;font-size:15px;line-height:1.5;color:#7E8C93;max-width:52ch">This is a prototype — no data was submitted. In the live build this posts to the practice inbox and your patient management system.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px">
+              <button onClick="{{ closeWizard }}" style="background:#00A9E0;color:#08131A;border:0;height:56px;padding:0 26px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Back to the site</button>
+              <a href="tel:0243231533" style="display:flex;align-items:center;height:56px;padding:0 22px;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:15px;font-weight:600" style-hover="border-color:#00A9E0;color:#00A9E0">Or ring (02) 4323 1533</a>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid rgba(126,140,147,0.22);padding-top:24px">
+            <button onClick="{{ back }}" style="height:52px;padding:0 22px;background:transparent;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="border-color:#00A9E0;color:#00A9E0">Back</button>
+            <button onClick="{{ next }}" style="{{ nextStyle }}">{{ nextLabel }}</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;minimal&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;'full' | 'minimal'&quot;,&quot;section&quot;:&quot;Behaviour&quot;},&quot;slotNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;}}">
+class Component extends DCLogic {
+  state = { menu:false, wiz:false, step:0, who:'', concern:'', loc:'', when:'', name:'', phone:'', email:'', caseIdx:0, pos:52, dragging:false, headerLight:false, headerShrunk:false, vw:(typeof window !== 'undefined' ? window.innerWidth : 1280) };
+
+  constructor(p){
+    super(p);
+    ['rootRef','curtainRef','counterRef','headerRef','logoRef','navRef','phoneRef','burgerRef','heroImgRef','heroSubRef','h1a','h1b','h1c','listRef','cursorRef','cursorImgRef','par1','par2','mapRef','compareRef','handleRef','beforeRef','afterRef']
+      .forEach(k => this[k] = React.createRef());
+    this.cases = [
+      { suburb:'North Gosford', months:'27 months', appliance:'Upper and lower fixed braces, with canine exposure',
+        detail:'A canine that had not come through on its own. Exposed surgically, then brought into line with the rest of the arch and finished on a properly aligned bite.',
+        before:'img/case1-before.png', after:'img/case1-after.png' },
+      { suburb:'Killarney Vale', months:'6 months', appliance:'Invisalign, 20 aligners',
+        detail:'Adult male. Teeth straightened and the bite improved across twenty trays — the shortest case on our record, because the starting point was close.',
+        before:'img/case2-before.png', after:'img/case2-after.png' },
+      { suburb:'Umina Beach', months:'12 months', appliance:'Upper and lower metal braces',
+        detail:'Teen with crowding and crooked front teeth. Corrected inside a year, which is what fixed braces still do better than anything else.',
+        before:'img/case3-before.png', after:'img/case3-after.png' },
+      { suburb:'Matcham', months:'15 months', appliance:'Fixed appliances',
+        detail:'Published on our case record with a fifteen-month treatment time from first scan to retainer fit.',
+        before:'img/case4-before.png', after:'img/case4-after.png' }
+    ];
+    this.svcImages = ['img/svc-children.png','img/svc-teens.png','img/svc-adults.png','img/svc-invisalign.png',
+      'img/svc-ceramic.png','img/svc-metal.png','img/svc-interceptive.png','img/svc-surgical.png'];
+    // warm the gallery so a tab switch never shows an empty frame
+    this.cases.forEach(c => { [c.before, c.after].forEach(src => { const p = new Image(); p.src = src; }); });
+    this.svc = [
+      { n:'01', name:'Children', note:'Assessment from age seven; some problems are easier eliminated early.' },
+      { n:'02', name:'Teens', note:'The years most bites are corrected, around and after the last baby teeth.' },
+      { n:'03', name:'Adults', note:'Aligners and ceramic brackets for people who did not do this at fifteen.' },
+      { n:'04', name:'Invisalign', note:'Planned and monitored by a specialist, not posted to you.' },
+      { n:'05', name:'Ceramic braces', note:'Porcelain brackets where visibility matters more than cost.' },
+      { n:'06', name:'Metal braces', note:'Still the most controlled way to move a difficult tooth.' },
+      { n:'07', name:'Interceptive & orthopaedic', note:'Guiding jaw growth while there is growth left to guide.' },
+      { n:'08', name:'Surgical & skeletal anchorage', note:'For bites that teeth alone cannot fix.' }
+    ];
+    this.qs = [
+      { key:'who', q:'Who is this for?', note:'It changes who we book you with and how long we set aside.',
+        opts:['Myself','My child','My teenager','Someone I care for'] },
+      { key:'concern', q:'What made you look this up today?', note:'In your words. There is no wrong answer here.',
+        opts:['Crooked or crowded teeth','A bite that does not meet','Clear aligners vs braces','A broken retainer or appliance','A dentist told us to come'] },
+      { key:'loc', q:'Which clinic is easier for you?', note:'Gosford is at 1/59 Beane St. Erina is on the Central Coast Highway.',
+        opts:['Gosford','Erina','Either — whichever is sooner'] },
+      { key:'when', q:'When can you get away?', note:'We are open Monday to Friday, 8am to 5pm.',
+        opts:['Weekday morning','Weekday afternoon','After school','First available'] }
+    ];
+  }
+
+  get reduced(){
+    return this.props.motion === 'minimal' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  componentDidMount(){
+    this.esc = (e) => { if (e.key === 'Escape') this.setState({ wiz:false, menu:false }); };
+    window.addEventListener('keydown', this.esc);
+    this.syncProps();
+
+    // 1. things that must never depend on a CDN: the curtain, the counter, the header
+    this.dismissCurtain();
+    this.runCounter();
+    this.wireHeader();
+    this.wireHoverList();
+    this.watchReveals();
+
+    // 2. everything scroll-linked waits for GSAP to actually arrive
+    this.waitForLibs().then((ok) => { if (ok) this.boot(); });
+  }
+
+  waitForLibs(){
+    if (this.reduced) return Promise.resolve(false);
+    return new Promise((resolve) => {
+      const t0 = Date.now();
+      const tick = () => {
+        if (window.gsap && window.ScrollTrigger) return resolve(true);
+        if (Date.now() - t0 > 8000) return resolve(false);
+        setTimeout(tick, 60);
+      };
+      tick();
+    });
+  }
+
+  dismissCurtain(){
+    const c = this.curtainRef.current;
+    if (!c) return;
+    const hide = () => { c.style.display = 'none'; };
+    c.addEventListener('animationend', hide, { once:true });
+    setTimeout(hide, 2600); // belt and braces: never trap the page
+  }
+
+  runCounter(){
+    const el = this.counterRef.current;
+    if (!el) return;
+    if (this.reduced) { el.textContent = '100'; return; }
+    const t0 = performance.now(), dur = 1150;
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur);
+      el.textContent = String(Math.round(p * 100)).padStart(2, '0');
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // reveals must resolve with or without ScrollTrigger
+  watchReveals(){
+    const root = this.rootRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver((entries) => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      setTimeout(() => {
+        if (parseFloat(getComputedStyle(el).opacity) < 0.9) { el.style.opacity = '1'; el.style.transform = 'none'; }
+      }, 900);
+      io.unobserve(el);
+    }), { rootMargin:'0px 0px -6% 0px' });
+    root.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    const revealAll = () => root.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+    window.addEventListener('beforeprint', revealAll);
+    // watchdog: if ScrollTrigger never came alive (no rAF, blocked CDN, hidden tab)
+    // nothing may stay at opacity 0 — this depends on neither rAF nor IntersectionObserver
+    const heroBits = () => [this.h1a, this.h1b, this.h1c, this.heroSubRef]
+      .map(r => r.current).filter(Boolean);
+    const watchdog = () => {
+      // the hero headline is masked by the load timeline — if the ticker never ran, unmask it
+      heroBits().forEach(el => {
+        const t = getComputedStyle(el).transform;
+        if (parseFloat(getComputedStyle(el).opacity) < 0.9 || (t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)')) {
+          el.style.transform = 'none'; el.style.opacity = '1';
+        }
+      });
+      if (window.ScrollTrigger && window.ScrollTrigger.getAll().length > 0) return;
+      revealAll();
+      const hero = this.heroImgRef.current;
+      if (hero) hero.style.transform = 'none';
+    };
+    setTimeout(watchdog, 3000);
+    setTimeout(watchdog, 7000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') setTimeout(watchdog, 1200); });
+  }
+
+  syncProps(){
+    const root = this.rootRef.current;
+    if (!root) return;
+    const show = this.props.slotNotes ?? true;
+    root.querySelectorAll('[data-slot-note]').forEach(el => { el.style.display = show ? '' : 'none'; });
+  }
+  componentWillUnmount(){
+    this.dead = true;
+    if (this.headerRaf) cancelAnimationFrame(this.headerRaf);
+    if (this.headerTimer) clearInterval(this.headerTimer);
+    if (this.shrinkIO) this.shrinkIO.disconnect();
+    if (this.teamIO) this.teamIO.disconnect();
+    window.removeEventListener('keydown', this.esc);
+    if (this.lenis) this.lenis.destroy();
+  }
+
+  componentDidUpdate(){
+    this.syncProps();
+    const c = this.cases[this.state.caseIdx];
+    if (c) {
+      if (this.beforeRef.current && !this.beforeRef.current.src.endsWith(c.before)) this.beforeRef.current.src = c.before;
+      if (this.afterRef.current && !this.afterRef.current.src.endsWith(c.after)) this.afterRef.current.src = c.after;
+    }
+    const lock = this.state.wiz || this.state.menu;
+    document.body.style.overflow = lock ? 'hidden' : '';
+    if (this.lenis) { lock ? this.lenis.stop() : this.lenis.start(); }
+  }
+
+  boot(){
+    const g = window.gsap, ST = window.ScrollTrigger;
+    g.registerPlugin(ST);
+
+    // the curtain and counter are CSS/rAF driven; the timeline only handles the hero
+    const tl = g.timeline();
+    [this.h1a, this.h1b, this.h1c].forEach((r,i) => {
+      if (r.current) tl.from(r.current, { yPercent:112, duration:0.9, ease:'expo.out' }, 1.15 + i*0.09);
+    });
+    if (this.heroSubRef.current) tl.from(this.heroSubRef.current, { opacity:0, y:24, duration:0.8, ease:'power2.out' }, 1.6);
+    if (this.heroImgRef.current) {
+      tl.from(this.heroImgRef.current, { scale:1.14, duration:2.4, ease:'power2.out' }, 0.85);
+    }
+
+    this.buildScrollFx();
+
+    if (window.Lenis) {
+      this.lenis = new window.Lenis({ duration:1.05, smoothWheel:true });
+      const raf = (t) => this.lenis.raf(t * 1000);
+      g.ticker.add(raf);
+      g.ticker.lagSmoothing(0);
+      this.lenis.on('scroll', ST.update);
+      if (this.onHeaderScroll) this.lenis.on('scroll', this.onHeaderScroll);
+    }
+
+    window.addEventListener('load', () => ST.refresh());
+    setTimeout(() => { ST.refresh(); }, 600);
+    this.wireMagnet();
+  }
+
+  // ScrollTrigger occasionally fails to attach on the first registerPlugin call, which makes
+  // gsap silently drop every scrollTrigger config and run the tweens at once. Build the
+  // scroll-linked work in one re-runnable pass, then check it actually took.
+  buildScrollFx(){
+    const g = window.gsap, ST = window.ScrollTrigger, root = this.rootRef.current;
+    if (!g || !ST || !root) return;
+    if (this.fxBuilt) return;
+    g.registerPlugin(ST);
+    if (!g.core.globals().ScrollTrigger) return this.retryScrollFx();
+    // Until the images have given the page its real height, every trigger measures as
+    // already in view, fires at once and (being once:true) kills itself. Wait for the
+    // document to finish loading and every image to decode before measuring anything.
+    const imgs = [...root.querySelectorAll('img')];
+    if (document.readyState !== 'complete' || imgs.some(i => !i.complete || i.naturalWidth === 0)) return this.retryScrollFx();
+    if (ST.maxScroll(window) < window.innerHeight * 1.5) return this.retryScrollFx();
+    ST.refresh();
+    this.fxBuilt = true;
+
+    g.utils.toArray(root.querySelectorAll('[data-reveal]')).forEach(el => {
+      g.from(el, { opacity:0, y:24, duration:0.7, ease:'power2.out',
+        scrollTrigger:{ trigger:el, start:'top 92%', once:true } });
+    });
+
+    root.querySelectorAll('[data-count]').forEach(el => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const o = { v:0 };
+      g.to(o, { v:target, duration:1.4, ease:'power2.out',
+        scrollTrigger:{ trigger:el, start:'top 88%', once:true },
+        onUpdate:() => { el.textContent = Math.round(o.v) + suffix; },
+        onComplete:() => { el.textContent = target + suffix; } });
+    });
+
+    [this.heroImgRef, this.mapRef].forEach((r, i) => {
+      if (!r.current) return;
+      if (i === 0) {
+        g.to(r.current, { yPercent:12, ease:'none',
+          scrollTrigger:{ trigger:'#top', start:'top top', end:'bottom top', scrub:true } });
+      } else {
+        g.fromTo(r.current, { yPercent:-5 }, { yPercent:5, ease:'none',
+          scrollTrigger:{ trigger:r.current, start:'top bottom', end:'bottom top', scrub:true } });
+      }
+    });
+
+    ST.refresh();
+  }
+
+  retryScrollFx(){
+    this.fxTries = (this.fxTries || 0) + 1;
+    if (this.fxTries > 60) return;
+    setTimeout(() => this.buildScrollFx(), 200);
+  }
+
+  wireHeader(){
+    const h = this.headerRef.current;
+    if (!h) return;
+    const fit = () => {
+      this.setState({ vw: window.innerWidth });
+      const cap = document.querySelector('#top [data-slot-caption]');
+      if (cap) cap.style.display = (window.innerWidth >= 1180 && window.innerHeight >= 700) ? 'flex' : 'none';
+    };
+    fit(); window.addEventListener('resize', fit);
+
+    // React owns the header's colours: compute booleans only, never touch style here
+    const onScroll = () => {
+      const team = document.getElementById('team');
+      const probe = h.getBoundingClientRect().height * 0.55;
+      let over = false;
+      if (team) { const b = team.getBoundingClientRect(); over = b.top <= probe && b.bottom >= probe; }
+      const shrunk = window.scrollY > 90;
+      if (over !== this.state.headerLight || shrunk !== this.state.headerShrunk) {
+        this.setState({ headerLight: over, headerShrunk: shrunk });
+      }
+    };
+    this.onHeaderScroll = onScroll;
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+    if (this.lenis) this.lenis.on('scroll', onScroll);
+    onScroll();
+
+    // Scroll events are unreliable here: a smooth-scroll library can swallow them, anchor
+    // jumps and hash deep-links bypass them, and a reduced-motion visitor never reaches
+    // boot() at all. IntersectionObserver needs neither scroll events nor a live ticker.
+    if ('IntersectionObserver' in window) {
+      const line = () => Math.round(h.getBoundingClientRect().height * 0.55);
+
+      // shrink: a sentinel pinned to the top of the page. Once it leaves, we have scrolled.
+      const sentinel = document.createElement('div');
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:90px;pointer-events:none';
+      const root = this.rootRef.current;
+      if (root) {
+        root.style.position = root.style.position || 'relative';
+        root.appendChild(sentinel);
+        this.shrinkIO = new IntersectionObserver(([e]) => {
+          const shrunk = !e.isIntersecting;
+          if (shrunk !== this.state.headerShrunk) this.setState({ headerShrunk: shrunk });
+        }, { threshold: 0 });
+        this.shrinkIO.observe(sentinel);
+      }
+
+      // invert: watch the light section against a one-pixel band at the header's midline
+      const team = document.getElementById('team');
+      if (team) {
+        const build = () => {
+          if (this.teamIO) this.teamIO.disconnect();
+          const t = line();
+          this.teamIO = new IntersectionObserver(([e]) => {
+            const over = e.isIntersecting;
+            if (over !== this.state.headerLight) this.setState({ headerLight: over });
+          }, { rootMargin: (-t) + 'px 0px ' + (-(window.innerHeight - t - 1)) + 'px 0px', threshold: 0 });
+          this.teamIO.observe(team);
+        };
+        build();
+        window.addEventListener('resize', build);
+      }
+    }
+
+    // Last line of defence: read the scroll position each frame. Costs two rects and only
+    // calls setState when a boolean flips, and it covers every case the two paths above
+    // miss (swallowed scroll events, programmatic jumps, environments that never paint).
+    let last = -1;
+    const check = () => {
+      const y = window.scrollY;
+      if (y === last) return;
+      last = y;
+      onScroll();
+    };
+    const poll = () => {
+      if (this.dead) return;
+      this.headerRaf = requestAnimationFrame(poll);
+      check();
+    };
+    poll();
+    // requestAnimationFrame is suspended whenever the document is not painting, so keep a
+    // timer on it as well — this is what guarantees the header is never left mid-state.
+    this.headerTimer = setInterval(check, 150);
+  }
+
+  wireHoverList(){
+    const list = this.listRef.current, box = this.cursorRef.current, img = this.cursorImgRef.current;
+    if (!list || !box || !window.matchMedia('(pointer:fine)').matches) return;
+    this.svcImages.forEach(src => { const p = new Image(); p.src = src; }); // preload so the swap is instant
+    const g = window.gsap;
+    const move = (e) => {
+      if (g) g.to(box, { x:e.clientX + 24, y:e.clientY - 165, duration:0.5, ease:'power3.out' });
+      else box.style.transform = `translate(${e.clientX+24}px,${e.clientY-165}px)`;
+    };
+    list.querySelectorAll('[data-svc]').forEach((row, i) => {
+      row.addEventListener('mouseenter', () => { if (img) img.src = this.svcImages[i] || this.svcImages[0]; box.style.opacity = '1'; });
+      row.addEventListener('mouseleave', () => { box.style.opacity = '0'; });
+      row.addEventListener('mousemove', move);
+    });
+  }
+
+  wireMagnet(){
+    const g = window.gsap;
+    if (!g || !window.matchMedia('(pointer:fine)').matches) return;
+    this.rootRef.current.querySelectorAll('button').forEach(b => {
+      b.addEventListener('mousemove', (e) => {
+        const r = b.getBoundingClientRect();
+        g.to(b, { x:(e.clientX - (r.left + r.width/2)) * 0.16, y:(e.clientY - (r.top + r.height/2)) * 0.22, duration:0.4, ease:'power2.out' });
+      });
+      b.addEventListener('mouseleave', () => g.to(b, { x:0, y:0, duration:0.5, ease:'elastic.out(1,0.4)' }));
+    });
+  }
+
+  setPosFromEvent(e){
+    const el = this.compareRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100));
+    this.setState({ pos: pct });
+  }
+
+  caseTabStyle(active){
+    return { flex:'1 1 160px', minWidth:0, minHeight:'64px', padding:'14px 18px', cursor:'pointer',
+      display:'flex', flexDirection:'column', alignItems:'flex-start', gap:'6px', textAlign:'left',
+      background: active ? '#00A9E0' : '#08131A', color: active ? '#08131A' : '#EEF2F4', border:0 };
+  }
+
+  optStyle(sel){
+    return { minHeight:'56px', padding:'16px 18px', textAlign:'left', cursor:'pointer',
+      background: sel ? '#00A9E0' : 'transparent', color: sel ? '#08131A' : '#EEF2F4',
+      border: sel ? '1px solid #00A9E0' : '1px solid rgba(126,140,147,0.5)',
+      fontSize:'18px', lineHeight:1.35, fontWeight: sel ? 600 : 400 };
+  }
+
+  renderVals(){
+    const s = this.state, step = s.step, q = this.qs[step];
+    const isQ = step < 4, isDetails = step === 4, isReview = step === 5, isDone = step === 6;
+    const val = (k) => s[k] || '—';
+    const active = this.cases[s.caseIdx] || this.cases[0];
+    const lightHeader = !!s.headerLight;
+    const hFg = lightHeader ? '#08131A' : '#EEF2F4';
+    const hLine = lightHeader ? 'rgba(8,19,26,0.22)' : 'rgba(126,140,147,0.22)';
+    const vw = s.vw || 1280;
+    const wide = vw >= 1024;
+    return {
+      headerStyle: { position:'fixed', top:0, left:0, right:0, zIndex:200, display:'flex',
+        alignItems:'center', justifyContent:'space-between', gap:'20px',
+        padding: (s.headerShrunk ? '10px' : '18px') + ' 6vw',
+        background: lightHeader ? 'rgba(238,242,244,0.92)' : 'rgba(8,19,26,0.82)',
+        backdropFilter:'blur(14px)', borderBottom:'1px solid ' + hLine,
+        transition:'padding .35s ease, background .35s ease, border-color .35s ease' },
+      headerLogoStyle: { height:'clamp(20px,3.4vw,28px)', width:'auto', display:'block',
+        filter: lightHeader ? 'none' : 'saturate(1.06) brightness(1.14)' },
+      navStyle: { display: wide ? 'flex' : 'none', alignItems:'center', gap:'clamp(14px,2vw,30px)',
+        fontSize:'13px', fontWeight:500, letterSpacing:'0.02em' },
+      navLinkStyle: { color: hFg, padding:'12px 0' },
+      headerPhoneStyle: { display: vw >= 620 ? 'flex' : 'none', alignItems:'center', fontSize:'13px',
+        fontWeight:600, letterSpacing:'0.04em', color: hFg, minHeight:'44px', padding:'0 6px' },
+      burgerStyle: { display: wide ? 'none' : 'flex', width:'44px', height:'44px', background:'transparent',
+        border:'1px solid ' + hLine, flexDirection:'column', alignItems:'center', justifyContent:'center',
+        gap:'5px', cursor:'pointer' },
+      burgerBarStyle: { display:'block', width:'16px', height:'1px', background: hFg },
+      services: this.svc.map((x,i) => ({ ...x, i })),
+      cases: this.cases.map((c,i) => ({ ...c, tabStyle: this.caseTabStyle(i === s.caseIdx),
+        on: () => this.setState({ caseIdx:i, pos:52 }) })),
+      activeSuburb: active.suburb, activeMonths: active.months,
+      activeAppliance: active.appliance, activeDetail: active.detail,
+      clipRight: (100 - s.pos).toFixed(2) + '%',
+      handleLeft: s.pos.toFixed(2) + '%',
+      posLabel: Math.round(s.pos),
+      compareRef: this.compareRef, handleRef: this.handleRef,
+      onDrag: (e) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} this.setState({ dragging:true }); this.setPosFromEvent(e); },
+      onMove: (e) => { if (this.state.dragging) this.setPosFromEvent(e); },
+      onDrop: (e) => { try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {} this.setState({ dragging:false }); },
+      onKey: (e) => {
+        const step = e.shiftKey ? 10 : 4;
+        if (e.key === 'ArrowLeft') { e.preventDefault(); this.setState(p => ({ pos: Math.max(0, p.pos - step) })); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); this.setState(p => ({ pos: Math.min(100, p.pos + step) })); }
+        if (e.key === 'Home') { e.preventDefault(); this.setState({ pos:0 }); }
+        if (e.key === 'End') { e.preventDefault(); this.setState({ pos:100 }); }
+      },
+      menu: s.menu, wiz: s.wiz,
+      toggleMenu: () => this.setState(p => ({ menu: !p.menu })),
+      openWizard: () => this.setState({ wiz:true, menu:false, step:0 }),
+      closeWizard: () => this.setState({ wiz:false }),
+      rootRef:this.rootRef, curtainRef:this.curtainRef, counterRef:this.counterRef,
+      headerRef:this.headerRef, logoRef:this.logoRef, navRef:this.navRef, phoneRef:this.phoneRef,
+      burgerRef:this.burgerRef, heroImgRef:this.heroImgRef, heroSubRef:this.heroSubRef,
+      h1a:this.h1a, h1b:this.h1b, h1c:this.h1c, listRef:this.listRef,
+      cursorRef:this.cursorRef, cursorImgRef:this.cursorImgRef, par1:this.par1, par2:this.par2, mapRef:this.mapRef,
+      beforeRef:this.beforeRef, afterRef:this.afterRef,
+      isQ, isDetails, isReview, isDone,
+      showNav: !isDone,
+      progress: Math.round(((Math.min(step,5)) / 5) * 100) + '%',
+      stepLabel: isDone ? 'Done' : (isReview ? 'Review' : 'Step ' + String(Math.min(step+1,5)).padStart(2,'0') + ' of 05'),
+      question: q ? q.q : '',
+      questionNote: q ? q.note : '',
+      options: q ? q.opts.map(o => ({ label:o, style:this.optStyle(s[q.key] === o), on:() => this.setState({ [q.key]:o }) })) : [],
+      name:s.name, phone:s.phone, email:s.email,
+      setName:(e) => this.setState({ name:e.target.value }),
+      setPhone:(e) => this.setState({ phone:e.target.value }),
+      setEmail:(e) => this.setState({ email:e.target.value }),
+      summary: [
+        { k:'For', v:val('who') }, { k:'Reason', v:val('concern') },
+        { k:'Clinic', v:val('loc') }, { k:'When', v:val('when') },
+        { k:'Name', v:val('name') }, { k:'Mobile', v:val('phone') }, { k:'Email', v:val('email') }
+      ],
+      doneLine: (s.name ? s.name.split(' ')[0] + ', we have your request.' : 'We have your request.'),
+      nextLabel: isReview ? 'Send request' : (isDetails ? 'Review' : 'Continue'),
+      nextStyle: { height:'52px', padding:'0 26px', border:0, background:'#00A9E0', color:'#08131A',
+        fontSize:'13px', fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase', cursor:'pointer' },
+      next: () => this.setState(p => ({ step: Math.min(p.step + 1, 6) })),
+      back: () => this.setState(p => ({ step: Math.max(p.step - 1, 0) }))
+    };
+  }
+}
+</script>
+</body>
+</html>
