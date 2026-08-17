@@ -111,19 +111,19 @@ input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
     </div>
   </sc-if>
 
-  <section id="top" data-screen-label="Hero" style="position:relative;height:100svh;min-height:100svh;width:100%;overflow:hidden;display:flex;align-items:flex-end">
+  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100svh;width:100%;overflow:hidden;display:flex;align-items:flex-end">
     <div ref="{{ heroImgRef }}" style="position:absolute;inset:0;background:#0E1D24 url(img/hero.png) center right/cover no-repeat;will-change:transform"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(75deg,rgba(8,19,26,0.94) 0%,rgba(8,19,26,0.86) 42%,rgba(8,19,26,0.34) 78%,rgba(8,19,26,0.5) 100%)"></div>
-    <div style="position:relative;width:100%;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:clamp(88px,13vh,132px) 6vw clamp(36px,7vh,80px)">
-      <div style="grid-column:1 / span 9;display:flex;flex-direction:column;gap:clamp(20px,3vh,34px)">
+    <div style="position:relative;width:100%;display:flex;padding:clamp(88px,13vh,132px) 6vw clamp(36px,7vh,80px)">
+      <div style="width:100%;max-width:min(100%,1180px);display:flex;flex-direction:column;gap:clamp(20px,3vh,34px)">
         <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Gosford &amp; Erina — since 1984</div>
-        <h1 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(38px,7.4vw,112px);letter-spacing:-0.045em;line-height:0.90;color:#EEF2F4;text-wrap:balance">
+        <h1 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(30px,7.4vw,112px);letter-spacing:-0.045em;line-height:0.90;color:#EEF2F4;text-wrap:balance">
           <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1a }}" style="display:block">Specialist-only care,</span></span>
           <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1b }}" style="display:block">on the Coast</span></span>
           <span style="display:block;overflow:hidden;padding-bottom:0.02em"><span ref="{{ h1c }}" style="display:block">since 1984.</span></span>
         </h1>
         <div ref="{{ heroSubRef }}" style="display:flex;flex-direction:column;gap:clamp(18px,3vh,30px);max-width:640px">
-          <p style="margin:0;font-size:21px;line-height:1.45;max-width:52ch;color:#EEF2F4">Dr Alistair King and Dr Simon Deall: AHPRA-registered Specialist Orthodontists, both working full-time on the Coast.</p>
+          <p style="margin:0;font-size:clamp(17px,1.4vw,21px);line-height:1.45;max-width:52ch;color:#EEF2F4">Dr Alistair King and Dr Simon Deall: AHPRA-registered Specialist Orthodontists, both working full-time on the Coast.</p>
           <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
             <button onClick="{{ openWizard }}" style="background:#00A9E0;color:#08131A;border:0;height:56px;padding:0 28px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#EEF2F4">Book a consultation</button>
             <a href="tel:0243231533" style="display:flex;align-items:center;height:56px;padding:0 22px;border:1px solid rgba(126,140,147,0.5);color:#EEF2F4;font-size:15px;font-weight:600;letter-spacing:0.04em" style-hover="border-color:#00A9E0;color:#00A9E0">(02) 4323 1533</a>
@@ -182,8 +182,8 @@ input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
     <div ref="{{ listRef }}" style="margin-top:clamp(48px,7vh,88px);border-top:1px solid rgba(126,140,147,0.28)">
       <sc-for list="{{ services }}" as="s" hint-placeholder-count="8">
         <a href="#contact" data-svc="{{ s.i }}" data-reveal style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px;padding:clamp(18px,2.6vh,28px) 0;border-bottom:1px solid rgba(126,140,147,0.28);color:#EEF2F4" style-hover="color:#00A9E0">
-          <span style="flex:1 1 auto;min-width:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">{{ s.name }}</span>
-          <span style="flex:0 1 34ch;min-width:0;font-size:15px;line-height:1.5;color:#7E8C93;text-align:right">{{ s.note }}</span>
+          <span style="flex:1 1 14ch;min-width:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:600;letter-spacing:-0.035em;line-height:1.0">{{ s.name }}</span>
+          <span style="flex:1 1 26ch;min-width:0;font-size:15px;line-height:1.5;color:#7E8C93;text-align:right">{{ s.note }}</span>
         </a>
       </sc-for>
     </div>
@@ -207,7 +207,7 @@ input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
     </div>
 
     <div data-reveal style="margin-top:1px;display:flex;flex-wrap:wrap;gap:1px;background:rgba(126,140,147,0.28)">
-      <div ref="{{ compareRef }}" onPointerDown="{{ onDrag }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onDrop }}" style="position:relative;flex:1 1 440px;min-width:0;background:#0E1D24;aspect-ratio:4/3;overflow:hidden;touch-action:none;cursor:ew-resize;user-select:none">
+      <div ref="{{ compareRef }}" onPointerDown="{{ onDrag }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onDrop }}" style="position:relative;flex:1 1 440px;min-width:0;background:#0E1D24;aspect-ratio:4/3;overflow:hidden;touch-action:pan-y;cursor:ew-resize;user-select:none">
         <img ref="{{ afterRef }}" src="img/case1-after.png" alt="After treatment" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none">
         <img ref="{{ beforeRef }}" src="img/case1-before.png" alt="Before treatment" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;clip-path:inset(0 {{ clipRight }} 0 0)">
         <div style="position:absolute;bottom:16px;left:16px;padding:7px 12px;background:rgba(8,19,26,0.82);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#EEF2F4;pointer-events:none">Before</div>
@@ -242,7 +242,7 @@ input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
           <img src="img/dr-deall.png" alt="Dr Simon Deall, Specialist Orthodontist" style="width:100%;height:100%;object-fit:cover;display:block">
         </div>
       </div></div>
-      <div style="padding:0 6vw;display:flex;flex-direction:column;gap:clamp(28px,4vh,44px);width:100%;max-width:max(320px,45vw)">
+      <div style="padding:0 6vw;display:flex;flex-direction:column;gap:clamp(28px,4vh,44px);width:100%;max-width:min(100%,720px)">
         <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#4A5A62">Your orthodontists</div>
         <h2 style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;text-wrap:pretty">Two specialists. Both of them locals. Both of them teach.</h2>
         <div style="display:flex;flex-direction:column;gap:24px;border-top:1px solid rgba(8,19,26,0.2);padding-top:24px">
@@ -312,12 +312,12 @@ input,button,select,textarea{font:inherit;color:inherit;border-radius:0}
   </section>
 
   <section id="cost" data-screen-label="Cost" style="scroll-margin-top:96px;padding:clamp(80px,11vh,140px) 6vw;border-top:1px solid rgba(126,140,147,0.22)">
-    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start">
-      <div style="grid-column:1 / span 7;display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,72px);align-items:start">
+      <div style="flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:24px">
         <h2 data-reveal style="margin:0;font-family:'Bricolage Grotesque',Helvetica,sans-serif;font-weight:700;font-size:clamp(32px,4.6vw,64px);letter-spacing:-0.040em;line-height:0.95;max-width:20ch;text-wrap:pretty">Interest free, weekly if that suits you better.</h2>
         <p data-reveal style="margin:0;font-size:19px;line-height:1.5;max-width:56ch;color:#EEF2F4">Many patients pay treatment off over time. The plans are interest free and customised to your budget — weekly, fortnightly or monthly. Treatment and item numbers are recognised by all health funds, and as registered specialists the rebate is often higher than for treatment by a non-specialist.</p>
       </div>
-      <div data-reveal style="grid-column:10 / span 3;border-left:1px solid rgba(126,140,147,0.28);padding-left:24px;display:flex;flex-direction:column;gap:14px">
+      <div data-reveal style="flex:1 1 240px;min-width:0;max-width:34ch;border-left:1px solid rgba(126,140,147,0.28);padding-left:24px;display:flex;flex-direction:column;gap:14px">
         <div style="font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7E8C93">Also true</div>
         <div style="font-size:15px;line-height:1.5">Diamond Black Invisalign Provider.</div>
         <div style="font-size:15px;line-height:1.5">Health fund claims on the spot via HICAPS.</div>
